@@ -9,4 +9,4 @@
 
 ## Каталоги репозитория (задания):
 
-## Задание 1. Manual Kernel update
+* [Задание 1. Manual Kernel update](manual_kernel_update)
