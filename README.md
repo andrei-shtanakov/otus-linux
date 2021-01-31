@@ -10,3 +10,5 @@
 ## Каталоги репозитория (задания):
 
 * [Задание 1. Manual Kernel update](manual_kernel_update)
+
+* [Задание 1. дополнение. Сборка ядра из исходников (инструкция)](manual_kernel_update/manual/manual_from_sourses.md)
