@@ -1,8 +1,8 @@
 {
   "variables": {
-    "artifact_description": "CentOS 7.7 with kernel 5.x from sources",
+    "artifact_description": "CentOS 7.7 with kernel 5.x",
     "artifact_version": "7.7.1908",
-    "image_name": "centos-s-7.7"
+    "image_name": "centos-7.7"
   },
 
   "builders": [
@@ -68,7 +68,7 @@
         "{{user `image_name`}}" : {
           "scripts" :
             [
-              "scripts/stage-1-kernel-update-source.sh",
+              "scripts/stage-1-kernel-update.sh",
               "scripts/stage-2-clean.sh"
             ]
         }
