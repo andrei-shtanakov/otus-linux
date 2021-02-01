@@ -11,6 +11,7 @@ https://app.vagrantup.com/andrei-shtanakov/boxes/centos.7.5
 https://app.vagrantup.com/andrei-shtanakov/boxes/centos.7.5/versions/1.0/providers/virtualbox.box
 
 * [Сборка ядра из исходников (инструкция)](manual/manual_from_sourses.md)
+* [Vagrantfile использующий загуженный в Vagrant Cloud образ с новым ядром](packer/test/Vagrantfile)
 
 
 

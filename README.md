@@ -11,4 +11,6 @@
 
 * [Задание 1. Manual Kernel update](manual_kernel_update)
 
+* [Vagrantfile использующий загуженный в Vagrant Cloud образ с новым ядром](manual_kernel_update/packer/test/Vagrantfile)
+
 * [Задание 1. дополнение. Сборка ядра из исходников (инструкция)](manual_kernel_update/manual/manual_from_sourses.md)
