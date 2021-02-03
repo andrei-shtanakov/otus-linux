@@ -57,4 +57,12 @@ for i in $(seq 1 5); do sudo mkfs.ext4 /dev/md0p$i; done
 mkdir -p /raid/part{1,2,3,4,5}
 for i in $(seq 1 5); do mount /dev/md0p$i /raid/part$i; done
 ```
+### **Добавление информации о дисках в файл /etc/fstab для монтирования после перезагрузки**
+```
+echo "/dev/md0p1 /raid/part1    ext4    defaults    0 0" >> /etc/fstab
+echo "/dev/md0p2 /raid/part2    ext4    defaults    0 0" >> /etc/fstab
+echo "/dev/md0p3 /raid/part3    ext4    defaults    0 0" >> /etc/fstab
+echo "/dev/md0p4 /raid/part4    ext4    defaults    0 0" >> /etc/fstab
+echo "/dev/md0p5 /raid/part5    ext4    defaults    0 0" >> /etc/fstab
+```
 
