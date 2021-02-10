@@ -1,0 +1,234 @@
+[vagrant@server ~]$ su
+Password: 
+[root@server vagrant]# zpool status
+no pools available
+[root@server vagrant]# zpool create testpool mirror sdb sdc
+[root@server vagrant]# zpool list
+NAME       SIZE  ALLOC   FREE  CKPOINT  EXPANDSZ   FRAG    CAP  DEDUP    HEALTH  ALTROOT
+testpool   960M  91.5K   960M        -         -     0%     0%  1.00x    ONLINE  -
+[root@server vagrant]# zpool create testpool/fs1
+missing vdev specification
+usage:
+	create [-fnd] [-o property=value] ... 
+	    [-O file-system-property=value] ... 
+	    [-m mountpoint] [-R root] <pool> <vdev> ...
+[root@server vagrant]# zfc create testpool/fs1
+bash: zfc: command not found
+[root@server vagrant]# zfs create testpool/fs1
+[root@server vagrant]# zfs create testpool/fs2
+[root@server vagrant]# zfs create testpool/fs3
+[root@server vagrant]# zfs create testpool/fs4
+[root@server vagrant]# zpool list
+NAME       SIZE  ALLOC   FREE  CKPOINT  EXPANDSZ   FRAG    CAP  DEDUP    HEALTH  ALTROOT
+testpool   960M   350K   960M        -         -     0%     0%  1.00x    ONLINE  -
+[root@server vagrant]# zpool status
+  pool: testpool
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	testpool    ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sdb     ONLINE       0     0     0
+	    sdc     ONLINE       0     0     0
+
+errors: No known data errors
+[root@server vagrant]# zfs list
+NAME           USED  AVAIL     REFER  MOUNTPOINT
+testpool       206K   832M       28K  /testpool
+testpool/fs1    24K   832M       24K  /testpool/fs1
+testpool/fs2    24K   832M       24K  /testpool/fs2
+testpool/fs3    24K   832M       24K  /testpool/fs3
+testpool/fs4    24K   832M       24K  /testpool/fs4
+[root@server vagrant]# zfs get mounted
+NAME          PROPERTY  VALUE    SOURCE
+testpool      mounted   yes      -
+testpool/fs1  mounted   yes      -
+testpool/fs2  mounted   yes      -
+testpool/fs3  mounted   yes      -
+testpool/fs4  mounted   yes      -
+[root@server vagrant]# zfs set mountpoint=/mnt testpool
+[root@server vagrant]# ls /mnt
+fs1  fs2  fs3  fs4
+[root@server vagrant]# get zfs all testpool/fs1
+bash: get: command not found
+[root@server vagrant]# zfs get all testpool/fs1
+NAME          PROPERTY              VALUE                  SOURCE
+testpool/fs1  type                  filesystem             -
+testpool/fs1  creation              Tue Feb  9 18:18 2021  -
+testpool/fs1  used                  24K                    -
+testpool/fs1  available             832M                   -
+testpool/fs1  referenced            24K                    -
+testpool/fs1  compressratio         1.00x                  -
+testpool/fs1  mounted               yes                    -
+testpool/fs1  quota                 none                   default
+testpool/fs1  reservation           none                   default
+testpool/fs1  recordsize            128K                   default
+testpool/fs1  mountpoint            /mnt/fs1               inherited from testpool
+testpool/fs1  sharenfs              off                    default
+testpool/fs1  checksum              on                     default
+testpool/fs1  compression           off                    default
+testpool/fs1  atime                 on                     default
+testpool/fs1  devices               on                     default
+testpool/fs1  exec                  on                     default
+testpool/fs1  setuid                on                     default
+testpool/fs1  readonly              off                    default
+testpool/fs1  zoned                 off                    default
+testpool/fs1  snapdir               hidden                 default
+testpool/fs1  aclinherit            restricted             default
+testpool/fs1  createtxg             18                     -
+testpool/fs1  canmount              on                     default
+testpool/fs1  xattr                 on                     default
+testpool/fs1  copies                1                      default
+testpool/fs1  version               5                      -
+testpool/fs1  utf8only              off                    -
+testpool/fs1  normalization         none                   -
+testpool/fs1  casesensitivity       sensitive              -
+testpool/fs1  vscan                 off                    default
+testpool/fs1  nbmand                off                    default
+testpool/fs1  sharesmb              off                    default
+testpool/fs1  refquota              none                   default
+testpool/fs1  refreservation        none                   default
+testpool/fs1  guid                  1925686931187009515    -
+testpool/fs1  primarycache          all                    default
+testpool/fs1  secondarycache        all                    default
+testpool/fs1  usedbysnapshots       0B                     -
+testpool/fs1  usedbydataset         24K                    -
+testpool/fs1  usedbychildren        0B                     -
+testpool/fs1  usedbyrefreservation  0B                     -
+testpool/fs1  logbias               latency                default
+testpool/fs1  objsetid              81                     -
+testpool/fs1  dedup                 off                    default
+testpool/fs1  mlslabel              none                   default
+testpool/fs1  sync                  standard               default
+testpool/fs1  dnodesize             legacy                 default
+testpool/fs1  refcompressratio      1.00x                  -
+testpool/fs1  written               24K                    -
+testpool/fs1  logicalused           12K                    -
+testpool/fs1  logicalreferenced     12K                    -
+testpool/fs1  volmode               default                default
+testpool/fs1  filesystem_limit      none                   default
+testpool/fs1  snapshot_limit        none                   default
+testpool/fs1  filesystem_count      none                   default
+testpool/fs1  snapshot_count        none                   default
+testpool/fs1  snapdev               hidden                 default
+testpool/fs1  acltype               off                    default
+testpool/fs1  context               none                   default
+testpool/fs1  fscontext             none                   default
+testpool/fs1  defcontext            none                   default
+testpool/fs1  rootcontext           none                   default
+testpool/fs1  relatime              off                    default
+testpool/fs1  redundant_metadata    all                    default
+testpool/fs1  overlay               off                    default
+testpool/fs1  encryption            off                    default
+testpool/fs1  keylocation           none                   default
+testpool/fs1  keyformat             none                   default
+testpool/fs1  pbkdf2iters           0                      default
+testpool/fs1  special_small_blocks  0                      default
+[root@server vagrant]# zfs set compression=lz4 testpool/fs1
+[root@server vagrant]# zfs list
+NAME           USED  AVAIL     REFER  MOUNTPOINT
+testpool       223K   832M       28K  /mnt
+testpool/fs1    24K   832M       24K  /mnt/fs1
+testpool/fs2    24K   832M       24K  /mnt/fs2
+testpool/fs3    24K   832M       24K  /mnt/fs3
+testpool/fs4    24K   832M       24K  /mnt/fs4
+[root@server vagrant]# zfs set compression=gzip-9 testpool/fs2
+[root@server vagrant]# zfs get compression testpool/fs1
+NAME          PROPERTY     VALUE     SOURCE
+testpool/fs1  compression  lz4       local
+[root@server vagrant]# zfs get compression testpool/fs2
+NAME          PROPERTY     VALUE     SOURCE
+testpool/fs2  compression  gzip-9    local
+[root@server vagrant]# zfs set compression=zstd testpool/fs3
+cannot set property for 'testpool/fs3': 'compression' must be one of 'on | off | lzjb | gzip | gzip-[1-9] | zle | lz4'
+[root@server vagrant]# zfs set compression=lzjb testpool/fs3
+[root@server vagrant]# zfs set compression=zle testpool/fs4
+[root@server vagrant]# wget -O War_and_Peace.txt http://www.gutenberg.org/ebooks/2600.txt.utf-8
+bash: wget: command not found
+[root@server vagrant]# yum install wget
+Failed to set locale, defaulting to C.UTF-8
+Last metadata expiration check: 0:27:40 ago on Tue Feb  9 18:25:39 2021.
+Dependencies resolved.
+==========================================================================================================================
+ Package                 Architecture              Version                             Repository                    Size
+==========================================================================================================================
+Installing:
+ wget                    x86_64                    1.19.5-10.el8                       AppStream                    734 k
+
+Transaction Summary
+==========================================================================================================================
+Install  1 Package
+
+Total download size: 734 k
+Installed size: 2.8 M
+Is this ok [y/N]: y
+Downloading Packages:
+wget-1.19.5-10.el8.x86_64.rpm                                                             1.1 MB/s | 734 kB     00:00    
+--------------------------------------------------------------------------------------------------------------------------
+Total                                                                                     768 kB/s | 734 kB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                  1/1 
+  Installing       : wget-1.19.5-10.el8.x86_64                                                                        1/1 
+  Running scriptlet: wget-1.19.5-10.el8.x86_64                                                                        1/1 
+  Verifying        : wget-1.19.5-10.el8.x86_64                                                                        1/1 
+
+Installed:
+  wget-1.19.5-10.el8.x86_64                                                                                               
+
+Complete!
+[root@server vagrant]# wget -O War_and_Peace.txt http://www.gutenberg.org/ebooks/2600.txt.utf-8
+--2021-02-09 18:53:26--  http://www.gutenberg.org/ebooks/2600.txt.utf-8
+Resolving www.gutenberg.org (www.gutenberg.org)... 152.19.134.47
+Connecting to www.gutenberg.org (www.gutenberg.org)|152.19.134.47|:80... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: http://www.gutenberg.org/cache/epub/2600/pg2600.txt [following]
+--2021-02-09 18:53:26--  http://www.gutenberg.org/cache/epub/2600/pg2600.txt
+Reusing existing connection to www.gutenberg.org:80.
+HTTP request sent, awaiting response... 406 Not Acceptable
+2021-02-09 18:53:27 ERROR 406: Not Acceptable.
+
+[root@server vagrant]# wget -O War_and_Peace.txt http://www.gutenberg.org/ebooks/2600.txt
+--2021-02-09 18:56:45--  http://www.gutenberg.org/ebooks/2600.txt
+Resolving www.gutenberg.org (www.gutenberg.org)... 152.19.134.47
+Connecting to www.gutenberg.org (www.gutenberg.org)|152.19.134.47|:80... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2021-02-09 18:56:46 ERROR 404: Not Found.
+
+[root@server vagrant]# wget -O War_and_Peace.txt http://www.gutenberg.org/files/2600/2600-0.txt
+--2021-02-09 18:57:17--  http://www.gutenberg.org/files/2600/2600-0.txt
+Resolving www.gutenberg.org (www.gutenberg.org)... 152.19.134.47
+Connecting to www.gutenberg.org (www.gutenberg.org)|152.19.134.47|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3359584 (3.2M) [text/plain]
+Saving to: 'War_and_Peace.txt'
+
+War_and_Peace.txt              100%[==================================================>]   3.20M   290KB/s    in 44s     
+
+2021-02-09 18:58:02 (75.2 KB/s) - 'War_and_Peace.txt' saved [3359584/3359584]
+
+[root@server vagrant]# ls
+War_and_Peace.txt
+[root@server vagrant]# cp War_and_Peace.txt /mit/fs1
+cp: cannot create regular file '/mit/fs1': No such file or directory
+[root@server vagrant]# cp War_and_Peace.txt /mnt/fs1
+[root@server vagrant]# ls /mnt/fs1
+War_and_Peace.txt
+[root@server vagrant]# cp War_and_Peace.txt /mnt/fs2
+[root@server vagrant]# cp War_and_Peace.txt /mnt/fs3
+[root@server vagrant]# cp War_and_Peace.txt /mnt/fs4
+[root@server vagrant]# zfs list
+NAME           USED  AVAIL     REFER  MOUNTPOINT
+testpool      9.03M   823M       28K  /mnt
+testpool/fs1  2.02M   823M     2.02M  /mnt/fs1
+testpool/fs2  1.23M   823M     1.23M  /mnt/fs2
+testpool/fs3  2.41M   823M     2.41M  /mnt/fs3
+testpool/fs4  3.23M   823M     3.23M  /mnt/fs4
+[root@server vagrant]# 
+
+
