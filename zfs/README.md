@@ -14,11 +14,12 @@
 * [Файл - список команд которыми получен результат с их выводами](zfs)
 
 - Команды применения алгоритмов сжатия к файловым системам:
+```
 zfs set compression=lz4 testpool/fs1
 zfs set compression=gzip-9 testpool/fs2
 zfs set compression=lzjb testpool/fs3
 zfs set compression=zle testpool/fs4
-
+```
 - вывод команды из которой видно какой из алгоритмов лучше
 ```
 [root@server vagrant]# zfs list
