@@ -1,0 +1,21 @@
+[vagrant@lvm ~]$ sudo -i
+[root@lvm ~]# vgs
+  VG         #PV #LV #SN Attr   VSize   VFree
+  VolGroup00   1   2   0 wz--n- <38.97g    0 
+[root@lvm ~]# vgrename VolGroup00 OtusRoot
+  Volume group "VolGroup00" successfully renamed to "OtusRoot"
+[root@lvm ~]# vi /etc/fstab
+[root@lvm ~]# vi /etc/default/grub
+[root@lvm ~]# vi /boot/grub2/grub.cfg
+[root@lvm ~]# shutdown -r now
+Connection to 127.0.0.1 closed by remote host.
+Connection to 127.0.0.1 closed.
+
+
+Last login: Wed Feb 17 04:49:26 2021 from 10.0.2.2
+[vagrant@lvm ~]$ sudo -i
+[root@lvm ~]# vgs
+  VG       #PV #LV #SN Attr   VSize   VFree
+  OtusRoot   1   2   0 wz--n- <38.97g    0 
+[root@lvm ~]# 
+
