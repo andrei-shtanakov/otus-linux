@@ -18,3 +18,6 @@
 * [Задание 4. Файловыая система и ZFS](zfs)
 
 * [Задание 5. Загрузка системы. grub, initrd](grub2-initrd)
+...
+
+* [Задание. PAM (Pluggable Authentication Modules)](PAM)
